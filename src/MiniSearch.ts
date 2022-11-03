@@ -191,6 +191,8 @@ export type Options<T = any> = {
     * [[MiniSearch.autoSuggest]] method for details)
     */
   autoSuggestOptions?: SearchOptions
+
+  callbackWhenDesync?: () => void
 }
 
 type OptionsWithDefaults<T = any> = Options<T> & {
@@ -1274,6 +1276,9 @@ export default class MiniSearch<T = any> {
     for (const fieldName of Object.keys(this._fieldIds)) {
       if (this._fieldIds[fieldName] === fieldId) {
         console.warn(`MiniSearch: document with ID ${this._documentIds.get(shortDocumentId)} has changed before removal: term "${term}" was not present in field "${fieldName}". Removing a document after it has changed can corrupt the index!`)
+        if (this._options.callbackWhenDesync) {
+          this._options.callbackWhenDesync()
+        }
         return
       }
     }

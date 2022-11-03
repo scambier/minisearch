@@ -2,7 +2,7 @@
 .DS_Store
 /closet
 /tmp
-/dist
+# /dist
 /examples/dist
 /examples/node_modules
 /benchmarks/dist
